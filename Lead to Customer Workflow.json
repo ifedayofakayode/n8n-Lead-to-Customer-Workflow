@@ -1,0 +1,1041 @@
+{
+  "name": "Lead to Customer Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "formId": "VzrHUYkJ"
+      },
+      "type": "n8n-nodes-base.typeformTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -5120,
+        -112
+      ],
+      "id": "e665203f-823a-4ebd-a117-f0399bea9e57",
+      "name": "Typeform Trigger",
+      "webhookId": "ddfc7453-2024-4b2f-a135-20d6936d007d",
+      "credentials": {
+        "typeformOAuth2Api": {
+          "id": "CeSTagffytwuxvH9",
+          "name": "Typeform account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "974fef3f-5b82-4231-af32-463e5ae63877",
+              "name": "firstName",
+              "value": "={{ $json['First Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b23f05e5-f2fa-4ca5-ab83-c7d60445a271",
+              "name": "lastName",
+              "value": "={{ $json['Last Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "36b609e9-42cd-41f5-91df-970b80d2119b",
+              "name": "email",
+              "value": "={{ $json.Email.toLowerCase() }}",
+              "type": "string"
+            },
+            {
+              "id": "0d796a75-c4fe-4860-85f9-16fb2a2fa45e",
+              "name": "phone",
+              "value": "={{ $json['Phone Number'] || 'Not Provided' }}",
+              "type": "string"
+            },
+            {
+              "id": "7125220b-f049-4cd9-9978-9f42f8577167",
+              "name": "company",
+              "value": "={{ $json['Company Name'] || 'Not Provided' }}",
+              "type": "string"
+            },
+            {
+              "id": "fc486297-bab9-48fb-86a6-c9ffcc01e52f",
+              "name": "jobTitle",
+              "value": "={{ $json['Job Title'] || 'Not Provided'}}",
+              "type": "string"
+            },
+            {
+              "id": "22ec53ac-b016-43f1-91e5-82d62bcb0079",
+              "name": "requestedDemo",
+              "value": "={{ $json['Request a Demo?'] }}",
+              "type": "string"
+            },
+            {
+              "id": "69048d4a-a68e-4e62-af99-cda1c7825b2f",
+              "name": "status",
+              "value": "Processing",
+              "type": "string"
+            },
+            {
+              "id": "897d9810-1add-437e-be61-03c915eccf32",
+              "name": "companyDomain",
+              "value": "={{ $json.Email.split('@')[1] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -4944,
+        -112
+      ],
+      "id": "ce56f4da-f391-4d52-b90c-f201c5869b70",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1966c4d2-e194-4bf7-85a6-116dc5190c89",
+              "leftValue": "={{ $json.result }}",
+              "rightValue": "deliverable",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -4592,
+        -112
+      ],
+      "id": "bd8a7985-7260-4f05-92b4-30579487d9a4",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "871a7c63-84e7-4cef-ae4c-471e7ae10ef9",
+              "leftValue": "={{ $json.company_name }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -4176,
+        -192
+      ],
+      "id": "5c666db7-966d-4b2a-934a-d67c857f370e",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1wK5i76p3eyf-TUMly41heGKLUQso4_BN2OXCXfKi3t8",
+          "mode": "list",
+          "cachedResultName": "Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wK5i76p3eyf-TUMly41heGKLUQso4_BN2OXCXfKi3t8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wK5i76p3eyf-TUMly41heGKLUQso4_BN2OXCXfKi3t8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $json.Email }}",
+            "First Name": "={{ $json['First Name'] }}",
+            "Last Name": "={{ $json['Last Name'] }}",
+            "Company": "={{ $json.company }}",
+            "Phone": "={{ $json.phone }}",
+            "Status": "={{ $json.status }}",
+            "Enriched_Company_Name": "={{ $json.company }}",
+            "Company_Size": "={{ $json['Number of employees'] }}",
+            "Industry": "={{ $json.industry }}",
+            "Date_Added": "={{ $now.toFormat('yyyy-MM-dd') }}",
+            "Last_Updated": "={{ $now }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Enriched_Company_Name",
+              "displayName": "Enriched_Company_Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Company_Size",
+              "displayName": "Company_Size",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Industry",
+              "displayName": "Industry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Assigned_To",
+              "displayName": "Assigned_To",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Date_Added",
+              "displayName": "Date_Added",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Last_Updated",
+              "displayName": "Last_Updated",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Source",
+              "displayName": "Source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -3760,
+        -288
+      ],
+      "id": "821cb321-0b3e-43ab-8e01-f55319ffbac4",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "4MRiIj6YngabxQYe",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "emailVerifier",
+        "email": "={{ $json.email }}"
+      },
+      "type": "n8n-nodes-base.hunter",
+      "typeVersion": 1,
+      "position": [
+        -4800,
+        -112
+      ],
+      "id": "0376a7f9-e9ec-473d-998b-84ac3d0b73d2",
+      "name": "Verify Email",
+      "credentials": {
+        "hunterApi": {
+          "id": "acWpusIr3FHgWKgq",
+          "name": "Hunter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://companyenrichment.abstractapi.com/v2/?api_key=01baa2cf7f464085bc02bcb0eed591dc&domain={{ $('Edit Fields').item.json.companyDomain }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -4384,
+        -192
+      ],
+      "id": "e1c7e815-b53d-467a-9e41-ef880d0de1ae",
+      "name": "Enrich Data"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a556c4b1-d3d8-411a-bb92-bb80c51cb336",
+              "name": "firstName",
+              "value": "={{ $('Edit Fields').item.json.firstName }}",
+              "type": "string"
+            },
+            {
+              "id": "8c0c75ae-5507-4f11-9be5-040bb3140f39",
+              "name": "lastName",
+              "value": "={{ $('Edit Fields').item.json.lastName }}",
+              "type": "string"
+            },
+            {
+              "id": "d85ee304-9481-48d3-b6f9-319615e298cf",
+              "name": "email",
+              "value": "={{ $('Edit Fields').item.json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "76ebd36a-132f-4ae0-9295-ebd0da0ba762",
+              "name": "phone",
+              "value": "={{ $('Edit Fields').item.json.phone }}",
+              "type": "string"
+            },
+            {
+              "id": "12e891f4-2ab5-40a7-8f04-21da75e00ad8",
+              "name": "company",
+              "value": "={{ $('Edit Fields').item.json.company }}",
+              "type": "string"
+            },
+            {
+              "id": "14cfc9c5-f011-42ae-a0d0-501fa162a698",
+              "name": "jobTitle",
+              "value": "={{ $('Edit Fields').item.json.jobTitle }}",
+              "type": "string"
+            },
+            {
+              "id": "22aa0902-80f2-48c4-8369-92c95956000d",
+              "name": "requestedDemo",
+              "value": "={{ $('Edit Fields').item.json.requestedDemo }}",
+              "type": "string"
+            },
+            {
+              "id": "b8af7c50-b279-46a6-a74d-aeb76319137a",
+              "name": "status",
+              "value": "Needs Review",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3984,
+        -32
+      ],
+      "id": "0ef7c740-62d7-4994-9b3d-54d659525836",
+      "name": "Enrichment Failed"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "07819a2b-0265-4522-b852-13dcbd004ed3",
+              "name": "First Name",
+              "value": "={{ $('Typeform Trigger').item.json['First Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "841cef41-d20a-45d9-a671-8599fdcaefc6",
+              "name": "Last Name",
+              "value": "={{ $('Typeform Trigger').item.json['Last Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "5428badc-ad74-4683-9879-54ac2b3ff4ab",
+              "name": "Email",
+              "value": "={{ $('Typeform Trigger').item.json.Email }}",
+              "type": "string"
+            },
+            {
+              "id": "d73e4315-1a9f-422c-8fcc-20fae30152b9",
+              "name": "company",
+              "value": "={{ $json.company_name }}",
+              "type": "string"
+            },
+            {
+              "id": "3d870856-be06-4d2f-8a6c-dfa46641b206",
+              "name": "phone",
+              "value": "={{ $('Edit Fields').item.json.phone }}",
+              "type": "string"
+            },
+            {
+              "id": "8140e815-dac6-462c-91a5-291c2f147303",
+              "name": "industry",
+              "value": "={{ $json.industry }}",
+              "type": "string"
+            },
+            {
+              "id": "56c4b692-5a66-4564-ae24-9cb5268af6b6",
+              "name": "country",
+              "value": "={{ $json.country }}",
+              "type": "string"
+            },
+            {
+              "id": "56b49616-7ad7-4162-a826-922953d59fe3",
+              "name": "Number of employees",
+              "value": "={{ $json.employee_count }}",
+              "type": "string"
+            },
+            {
+              "id": "29e330c4-5ab3-4483-bcc8-ca5913c47eb1",
+              "name": "status",
+              "value": "Validated and Enriched",
+              "type": "string"
+            },
+            {
+              "id": "fdb6e734-96de-4c45-9dfd-f401f8d9e0de",
+              "name": "enrichment_status",
+              "value": "true",
+              "type": "string"
+            },
+            {
+              "id": "c9af2078-82be-4b32-807a-f82ea0dbbd02",
+              "name": "requestedDemo",
+              "value": "={{ $('Edit Fields').item.json.requestedDemo }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3968,
+        -288
+      ],
+      "id": "6b60dbd8-ac36-4550-b0da-69b1e46812ff",
+      "name": "Enrichment Successful"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "email": "={{ $json.Email }}",
+        "additionalFields": {
+          "companyName": "={{ $json.Company }}",
+          "companySize": "={{ $json.Company_Size }}",
+          "firstName": "={{ $json['First Name'] }}",
+          "industry": "={{ $json.Industry }}",
+          "lastName": "={{ $json['Last Name'] }}"
+        },
+        "options": {
+          "resolveData": false
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        -3520,
+        -288
+      ],
+      "id": "c6a46715-429f-46d9-a27f-c0001ee4992a",
+      "name": "Create or update a contact",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "SkrzBHXlqNiB6E3E",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0ff304c8-87d6-4d3c-91f3-f3fb37354656",
+              "leftValue": "={{ $('Append or update row in sheet').item.json.Company_Size }}",
+              "rightValue": 50,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -3312,
+        -288
+      ],
+      "id": "9ab5c63d-fbe4-4568-8f15-8ef72899398e",
+      "name": "Lead Assignment"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1wK5i76p3eyf-TUMly41heGKLUQso4_BN2OXCXfKi3t8",
+          "mode": "list",
+          "cachedResultName": "Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wK5i76p3eyf-TUMly41heGKLUQso4_BN2OXCXfKi3t8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 28265536,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wK5i76p3eyf-TUMly41heGKLUQso4_BN2OXCXfKi3t8/edit#gid=28265536"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Title",
+              "lookupValue": "Senior Sales Manager"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -3104,
+        -384
+      ],
+      "id": "9a5e1cf4-9f09-49d1-a555-e8198f90d227",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "4MRiIj6YngabxQYe",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1wK5i76p3eyf-TUMly41heGKLUQso4_BN2OXCXfKi3t8",
+          "mode": "list",
+          "cachedResultName": "Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wK5i76p3eyf-TUMly41heGKLUQso4_BN2OXCXfKi3t8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 28265536,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wK5i76p3eyf-TUMly41heGKLUQso4_BN2OXCXfKi3t8/edit#gid=28265536"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Title",
+              "lookupValue": "Junior Sales Rep"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -3104,
+        -192
+      ],
+      "id": "dccddedf-9bd1-4f81-8230-d11e061f5ebe",
+      "name": "Get row(s) in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "4MRiIj6YngabxQYe",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5c742432-f831-4453-8651-3bc4e1057e38",
+              "leftValue": "={{ $('Edit Fields').item.json.requestedDemo }}",
+              "rightValue": "Yes",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2848,
+        -304
+      ],
+      "id": "e82c46cc-72dc-4bf6-bc6c-0ca09f1bee2f",
+      "name": "Demo Request Check"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Enrichment Successful').item.json.Email }}",
+        "subject": "Demo Request - Let's Schedule Your Personal Tour",
+        "emailType": "text",
+        "message": "=Hi {{ $('Enrichment Successful').item.json['First Name'] }},     \n\nThank you for requesting a demo! I'm {{ $json['First Name'] }} and I'll be showing you how our solution can help {{ $('Enrichment Successful').item.json.company }}.     \n\nPlease pick a time that works for you:    \nhttps://calendly.com/your-link/demo     \n\nI'm looking forward to speaking with you!     \n\nBest regards,    \n{{ $json['First Name'] }}\n{{ $json.Title }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -2640,
+        -400
+      ],
+      "id": "70cc6427-e589-4b83-9bff-f16b0b446694",
+      "name": "Send a message",
+      "webhookId": "c7c731eb-918d-43ae-8282-a4f820dd3791",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "goS6qMw1a3R9Ipjy",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Edit Fields').item.json.email }}",
+        "subject": "=Welcome to Sample Company,  {{ $('Edit Fields').item.json.firstName }}",
+        "emailType": "text",
+        "message": "=Hi {{ $('Edit Fields').item.json.firstName }},\n\nThanks for showing interest in Sample Company. We’re here to help you achieve your goals, whether that’s saving time, improving processes, or scaling your business.\n\nOne of our sales reps will be reaching out to you shortly with more details.\n\n\nWarm regards,\nThe Sample Company Team",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -2640,
+        -240
+      ],
+      "id": "e754814d-8120-41d2-aee7-c4b7d4af5e9f",
+      "name": "Send a message1",
+      "webhookId": "c7c731eb-918d-43ae-8282-a4f820dd3791",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "goS6qMw1a3R9Ipjy",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "workspace": "1211454291360965",
+        "name": "=Lead:  {{ $('Edit Fields').item.json.firstName }} {{ $('Edit Fields').item.json.lastName }} - {{ $('Enrichment Successful').item.json.company }}",
+        "otherProperties": {}
+      },
+      "type": "n8n-nodes-base.asana",
+      "typeVersion": 1,
+      "position": [
+        -2384,
+        -304
+      ],
+      "id": "f8b5342d-1e2c-4150-8276-7ed697c6acff",
+      "name": "Create a task",
+      "credentials": {
+        "asanaOAuth2Api": {
+          "id": "KUi8bEzRF3sQqgyf",
+          "name": "Asana account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C09HMEX0ETU",
+          "mode": "list",
+          "cachedResultName": "sales-leads"
+        },
+        "text": "=New Lead Assigned!\n\nNew Lead: {{ $('Append or update row in sheet').item.json['First Name'] }} {{ $('Append or update row in sheet').item.json['Last Name'] }}\nCompany: {{ $('Append or update row in sheet').item.json.Company }}\nEmail: {{ $('Append or update row in sheet').item.json.Email }}\nAssigned To: {{ $('Demo Request Check').item.json['First Name'] }} {{ $('Demo Request Check').item.json['Last Name'] }}\n",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        -2176,
+        -304
+      ],
+      "id": "68d40f43-d268-42c0-8766-ee6dbee3b8de",
+      "name": "Send a message2",
+      "webhookId": "4d49d12c-59ce-4668-be2e-e048029fe66a",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "fSMvr5gGnZ9P5w9w",
+          "name": "Slack account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Typeform Trigger": [
+      {
+        "json": {
+          "First Name": "Satya",
+          "Last Name": "Nadella",
+          "Email": "satyan@microsoft.com",
+          "Request a Demo?": "Yes"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Typeform Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Verify Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Enrich Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enrichment Failed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Enrichment Successful",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enrichment Failed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify Email": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enrich Data": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enrichment Successful": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Create or update a contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create or update a contact": {
+      "main": [
+        [
+          {
+            "node": "Lead Assignment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lead Assignment": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get row(s) in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Demo Request Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Demo Request Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Demo Request Check": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Create a task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a task": {
+      "main": [
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Create a task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "48544b82-91d6-4edb-bf81-579d805e4ff3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0484c607d8fce6d8a6df6004c1b28d149e99f0dcc43e410344986e7cf15cbd57"
+  },
+  "id": "T1vOVdcnABlyE8kg",
+  "tags": []
+}
