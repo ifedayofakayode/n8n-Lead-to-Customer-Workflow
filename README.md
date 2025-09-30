@@ -16,7 +16,7 @@ This system reduces manual work, improves lead quality, and ensures timely engag
 
 ## 🖼 Thumbnail
 
-*(Insert screenshot of n8n workflow here)*
+![Workflow-Canvas](https://github.com/ifedayofakayode/n8n-Lead-to-Customer-Workflow/blob/main/workflow-canvas.JPG)
 
 ---
 
